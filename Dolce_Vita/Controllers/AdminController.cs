@@ -104,5 +104,19 @@ namespace Dolce_Vita.Controllers
 
             return RedirectToAction("Categories", "Admin");
         }
+
+        //Delete Dish
+        [HttpPost]
+        [ActionName("DelDish")]
+        public async Task<IList> DelDish([FromBody] Dish dish)
+        {
+            Dish _dish = await db.Dishes.FirstOrDefaultAsync(x => x.Id == dish.Id);
+            if (_dish != null)
+            {
+                db.Remove(_dish);
+                await db.SaveChangesAsync();
+            }
+            return await db.Dishes.ToListAsync();
+        }
     }
 }
